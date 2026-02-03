@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "amqplib": "^0.10.9"
+  }
+}
