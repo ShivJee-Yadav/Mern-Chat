@@ -1,12 +1,11 @@
 import express from 'express';
-import dotenv from 'dotenv';
 import { startSendOtpConsumer } from './consumer.js';
-
+import dotenv from 'dotenv';
 
 dotenv.config();
 
 startSendOtpConsumer();
-
+console.log("working Correctlty")
 const app = express();
 
 app.listen(process.env.PORT, ()=>{
