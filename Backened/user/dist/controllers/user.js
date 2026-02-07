@@ -41,7 +41,7 @@ export const verifyUser = TryCatch(async (req, res) => {
         return;
     }
     await redisClient.del(otpKey);
-    let user = await User.find({ email });
+    let user = await User.findOne({ email });
     if (!user) {
         const name = email.slice(0, 8);
         user = await User.create({ name, email });
@@ -52,5 +52,34 @@ export const verifyUser = TryCatch(async (req, res) => {
         user,
         token,
     });
+});
+export const myProfile = TryCatch(async (req, res) => {
+    const user = req.user;
+    res.json(user);
+});
+export const updateName = TryCatch(async (req, res) => {
+    const user = await User.findById(req.user?._id);
+    if (!user) {
+        res.status(484).json({
+            message: "Plase Login"
+        });
+        return;
+    }
+    user.name = req.body.name;
+    await user.save();
+    const token = generateToken(user);
+    res.json({
+        message: "User Updated",
+        user,
+        token,
+    });
+});
+export const getAllusers = TryCatch(async (req, res) => {
+    const users = await User.find();
+    res.json(users);
+});
+export const getAUser = TryCatch(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    res.json(user);
 });
 //# sourceMappingURL=user.js.map

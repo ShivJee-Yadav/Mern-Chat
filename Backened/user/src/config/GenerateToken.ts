@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
-import dotend from 'dotenv';
+import dotenv from 'dotenv';
 
-dotend.config();
+dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET as string
 

@@ -10,7 +10,7 @@ export const connectRABBITMQ = async () => {
             password: process.env.Rabbitmq_Password,
         });
         channel = await connection.createChannel();
-        console.log("Connected to RabbitMQ successfully");
+        console.log(`Connected to RabbitMQ successfully`);
     }
     catch (error) {
         console.error("Error connecting to RabbitMQ:", error);

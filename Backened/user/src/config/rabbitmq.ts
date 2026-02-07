@@ -3,6 +3,7 @@ import amqplib from 'amqplib'
 let channel: amqplib.Channel
 
 export const connectRABBITMQ = async () => {
+   
     try {
         const connection = await amqplib.connect({
             protocol : "amqp",
@@ -13,7 +14,7 @@ export const connectRABBITMQ = async () => {
         }); 
         
         channel = await connection.createChannel();
-        console.log("Connected to RabbitMQ successfully");
+        console.log(`Connected to RabbitMQ successfully`);
     }catch (error) {
         console.error("Error connecting to RabbitMQ:", error);
     }
