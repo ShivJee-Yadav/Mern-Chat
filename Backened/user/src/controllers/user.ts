@@ -85,7 +85,7 @@ export const myProfile = TryCatch(async(req:AuthenticatedRequest,res)=>{
 
 
 export const updateName = TryCatch(async(req:AuthenticatedRequest, res)=>{
-    const user = await User.findById(req.user?._id)
+    const user = await User.findById(req.user)
     
     if(!user){
         res.status(484).json({

@@ -1,0 +1,4 @@
+npm i express dotenv jsonwebtoken axios mongoose
+npm i -D @types/express @types/dotenv @types/jsonwebtoken @types/axios concurrently
+
+tsc file creates dist folder 
