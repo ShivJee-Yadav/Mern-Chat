@@ -6,9 +6,10 @@ const storage = new CloudinaryStorage({
     params: {
         folder: "chat-images",
         allowed_formats: ["jpg", "png", "jpeg","gif","webp"],
-        transformation: [{ width: 800, height: 600, crop: "limit" },{quality: "auto" }],
+        transformation: [{ width: 800, height: 600, crop: "limit" },
+        {quality: "auto" }],
         
-    }as any,
+    }as any, 
 });
 
 export const upload = multer({

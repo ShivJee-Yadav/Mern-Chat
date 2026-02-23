@@ -103,13 +103,13 @@ export const sendMessage = TryCatch(async(req:AuthenticatedRequest, res)=>{
 
     if(!senderId){
         res.status(401).json({
-            message:"Unauthorized",
+            message:"Unauthorized Access ",
         });
         return;
     }
     if(!chatId){
         res.status(400).json({
-            message:"Chat ID is required",
+            message:"Chat ID Not Found",
         });
         return;
     }
@@ -124,7 +124,7 @@ export const sendMessage = TryCatch(async(req:AuthenticatedRequest, res)=>{
 
     if(!chat){
         res.status(404).json({
-            message:"Chat not found",
+            message:"Chat not Found",
         });
         return; 
     }
@@ -132,7 +132,7 @@ export const sendMessage = TryCatch(async(req:AuthenticatedRequest, res)=>{
     const isUserInChat = chat.users.some((userId)=> userId.toString() === senderId.toString());
     if(!isUserInChat){
         res.status(403).json({
-            message:"You are not a participant of this chat",
+            message:"Unauthorized Access, You are not a participant of this chat",
         });
         return;
     }
