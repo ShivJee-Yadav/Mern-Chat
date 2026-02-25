@@ -192,7 +192,7 @@ export const sendMessage = TryCatch(async(req:AuthenticatedRequest, res)=>{
 
 export const getMessagesByChat = TryCatch(async(req:AuthenticatedRequest, res)=>{
         const userId = req.user?._id;   
-        const {chatId} = req.params;
+        const { chatId } = req.params;
 
         if(!userId){
         res.status(401).json({
@@ -202,7 +202,7 @@ export const getMessagesByChat = TryCatch(async(req:AuthenticatedRequest, res)=>
         }
         if(!chatId){
         res.status(400).json({
-            message:"Chat ID is required",
+            message:"Chat ID doesn't Exist",
         });
         return;
         }
@@ -211,14 +211,14 @@ export const getMessagesByChat = TryCatch(async(req:AuthenticatedRequest, res)=>
 
         if(!chat){
             res.status(404).json({
-                message:"Chat not found",
+                message:"Chat not Found",
             });
             return;
         }
         const isUserInChat = chat.users.some((userId)=> userId.toString() === userId.toString());
         if(!isUserInChat){
             res.status(403).json({
-                message:"You are not a participant of this chat",
+                message:"Unauthorized Access , Not a participant of this chat",
             });
             return;
         }
@@ -246,7 +246,7 @@ export const getMessagesByChat = TryCatch(async(req:AuthenticatedRequest, res)=>
             const {data} = await axios.get(`${process.env.USER_SERVICE}/api/v1/user/${otherUserId}`);
             
             if(!otherUserId){
-                res.status(403).json({
+                res.status(400).json({
                     message:"No other user found in this chat",
                 });
                 return;
