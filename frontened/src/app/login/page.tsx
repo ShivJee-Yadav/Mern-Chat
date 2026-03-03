@@ -3,6 +3,7 @@ import { ArrowRight, Loader2, Mail } from 'lucide-react'
 import { useRouter } from 'next/navigation';
 import React, {useState} from 'react';
 import axios from 'axios';
+import { user_service } from '@/context/AppContext';
 const LoginPage = () => {
     const [email, setEmail] = useState<string>("")
     const [loading, setLoading] = useState<boolean>(false);
@@ -12,7 +13,7 @@ const LoginPage = () => {
         e.preventDefault()
         setLoading(true);
         try{
-            const { data } = await axios.post(`http://localhost:5000/api/v1/login`,{
+            const { data } = await axios.post(`${user_service}}/api/v1/login`,{
                 email,
             });
             alert(data.message)

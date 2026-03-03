@@ -1,9 +1,11 @@
 "use client"
-import { ArrowRight, Loader2, LockIcon } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
+import axios from 'axios';
+import { ArrowRight, ChevronLeft, Cookie, Loader2, LockIcon } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+// import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react'
-
+import Cookies from 'js-cookie';
+import { user_service } from '@/context/AppContext';
 const VerifyPage = () => {
     const [loading, setLoading] = useState(false)
     const [otp, setOtp] = useState<string[]>(["","","","","",""]);
@@ -53,13 +55,79 @@ const VerifyPage = () => {
             inputRefs.current[5]?.focus();
         }
     }
-    const handleSubmit = async() => {}
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  const otpString = otp.join("");
+  if (otpString.length !== 6) {
+    setError("Please Enter all 6 Digits");
+    return;
+  }
+
+  setLoading(true);
+  try {
+    const response = await axios.post("/api/verify", { email, otp: otpString });
+    if (response?.data) {
+      // ✅ safe access
+      console.log("Verification success:", response.data);
+      router.push("/dashboard"); // or wherever you want
+    } else {
+      setError("Unexpected response from server");
+    }
+  } catch (err) {
+    console.error(err);
+    setError("Verification failed");
+  } finally {
+    setLoading(false);
+  }
+
+  setError("")
+  setLoading(true)
+  try {
+    const {data} = await axios.post(`${user_service}/api/v1/verify`,{
+        email,
+        otpString,
+    });
+    alert(data.message)
+    Cookies.set("token",data.token,{
+        expires: 15,
+        secure:false,
+        path:"/"
+  })
+  setOtp(["","","","","",""])
+  inputRefs.current[0]?.focus();
+
+  } catch (error : any) {
+    setError(error.response.data.message)
+  }
+  finally{
+    setLoading(false);
+  }
+};
+
+const handleResendOtp = async () => {
+    setResendLoading(true)
+    setError("")
+    try {
+        const {data} = await axios.post(`${user_service}/api/v1/login`,{
+            email,
+        })
+        alert(data.message)
+        setTimer(60);
+  
+    } catch (error:any) {
+        setError(error.response.data.message)
+    }
+    finally{
+        setResendLoading(false)
+    }
+}
     
    
   return  <div className='min-h-screen bg-gray-900 flex items-center justify-center p-4'>
         <div className='max-w-md w-full'>
             <div className='bg-gray-800 border-bs-gray-700 rounded-lg p-8'>
-                <div className='text-center mb-8'>
+                <div className='text-center mb-8 relative'>
+                    <button className='absolute top-0 left-0 p-2 text-gray-100 hover:text-amber-300' onClick={() => router.push('/login')}><ChevronLeft className='w-6 h-6'/></button>
                     <div className='mx-auto w-20 h-20 bg-blue-600 rounded-lg- flex items-center justify-center mb-6'>
                         <LockIcon size={40} className='text-white'/>
                     </div>
@@ -97,7 +165,7 @@ const VerifyPage = () => {
                         <p className='text-red-300 text-sm text-center'>{error}</p>
                        </div> 
                     }
-                    <button type='submit' className='w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed' disabled={loading}>
+                    <button type='submit' className='w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed' disabled={loading} onClick={handleResendOtp}>
                         {
                             loading? <div className='flex items-center justify-center gap-2'><Loader2 className='w-5 h-5'/> 
                                 Verifying 
