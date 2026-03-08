@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
+import { getPossibleInstrumentationHookFilenames } from "next/dist/build/utils";
 
 
 export const metadata: Metadata = {
@@ -15,8 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <AppProvider>{children}</AppProvider>
+      <body><AppProvider>
+        {children}
+        </AppProvider>
       </body>
     </html>
   );
