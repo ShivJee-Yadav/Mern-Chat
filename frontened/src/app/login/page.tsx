@@ -64,7 +64,7 @@ const LoginPage = () => {
             </h1>
 
             <p className="text-gray-300 text-lg">
-              Enter your email to continue your journey
+              Enter your email to continue using this service
             </p>
           </div>
 
@@ -80,7 +80,7 @@ const LoginPage = () => {
               <input
                 type="email"
                 id="email"
-                className="w-full px-4 py-4 bg-gray-700 border-gray-600 rounded-lg text-white placeholder-gray-400"
+                className="w-full px-4 py-4 bg-gray-700 border-gray-600 rounded-4xl text-white placeholder-gray-400"
                 placeholder="Enter your email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -90,7 +90,7 @@ const LoginPage = () => {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-blue-600 text-white py-4 px-6 rounded-4xl font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={loading}
             >
               {loading ? (
@@ -101,7 +101,7 @@ const LoginPage = () => {
               ) : (
                 <div className="flex items-center justify-center gap-2">
                   <span>Send Verification Code</span>
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className="w-4 h-4" />
                 </div>
               )}
             </button>
